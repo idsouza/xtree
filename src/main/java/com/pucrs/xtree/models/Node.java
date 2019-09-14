@@ -65,7 +65,7 @@ public class Node {
     }
 
     public Node getLastChild() {
-        var childrenSize = this.getChildren().size();
+        int childrenSize = this.getChildren().size();
         return this.getChildren().get(childrenSize - 1);
     }
 }

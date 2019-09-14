@@ -28,17 +28,17 @@ public class Xtree {
      */
 
     public Node execute(String expressionParam) {
-        var expression = Arrays.stream(expressionParam.split(" "))
+        List<Integer> expression = Arrays.stream(expressionParam.split(" "))
                 .map(Integer::valueOf)
                 .collect(Collectors.toList());
 
-        var n1 = Instant.now().getNano();
-        var m1 = Instant.now().toEpochMilli();
+        long n1 = Instant.now().getNano();
+        long m1 = Instant.now().toEpochMilli();
 
-        var node = compute(expression, 0);
+        Node node = compute(expression, 0);
 
-        var nanoTime = Instant.now().getNano() - n1;
-        var milliTime = Instant.now().toEpochMilli() - m1;
+        long nanoTime = Instant.now().getNano() - n1;
+        long milliTime = Instant.now().toEpochMilli() - m1;
 
         System.out.println(String.format("Tempo de execução: %dus", nanoTime));
         System.out.println(String.format("Tempo de execução: %dms", milliTime));
@@ -47,8 +47,8 @@ public class Xtree {
     }
 
     private Node compute(List<Integer> expression, int beginIndex) {
-        var childrenSize = expression.get(beginIndex);
-        var node = new Node();
+        int childrenSize = expression.get(beginIndex);
+        Node node = new Node();
         node.setBeginIndex(beginIndex);
 
         if (childrenSize > 0) {
@@ -63,16 +63,16 @@ public class Xtree {
 
     private void computeChildren(Node node, List<Integer> expression, int beginIndex, int childrenSize) {
         for (int i = 0; i < childrenSize; i++) {
-            var child = compute(expression, beginIndex);
+            Node child = compute(expression, beginIndex);
             beginIndex = child.getEndIndex() + 1;
             node.getChildren().add(child);
         }
     }
 
     private void computeElements(Node node, List<Integer> expression, int beginIndex) {
-        var elementsSize = expression.get(node.getBeginIndex() + 1);
-        var elements = new ArrayList<Integer>();
-        var elementPosition = beginIndex;
+        int elementsSize = expression.get(node.getBeginIndex() + 1);
+        List<Integer> elements = new ArrayList<Integer>();
+        int elementPosition = beginIndex;
 
         for (int i = 0; i < elementsSize; i++, elementPosition++) {
             elements.add(expression.get(elementPosition));

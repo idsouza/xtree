@@ -2,25 +2,27 @@ package com.pucrs.xtree;
 
 import com.pucrs.xtree.algorithm.Statistics;
 import com.pucrs.xtree.algorithm.Xtree;
+import com.pucrs.xtree.models.Node;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Application {
 
     public static void main(String[] args) throws Exception {
-        var fileName = "casom13.txt";
-        var path = Path.of(Application.class.getClassLoader().getResource(fileName).toURI());
+        String fileName = "casom13.txt";
+        Path path = Paths.get(Application.class.getClassLoader().getResource(fileName).toURI());
 
-        var expression = Files.readAllLines(path)
+        String expression = Files.readAllLines(path)
                 .stream()
                 .reduce(String::concat)
                 .map(String::trim)
                 .get();
 
-        var node = new Xtree().execute(expression);
+        Node node = new Xtree().execute(expression);
 
-        var nodesLength = Statistics.getNodesLength(node);
+        long nodesLength = Statistics.getNodesLength(node);
         System.out.println(String.format("Número de nodos: %d", nodesLength));
     }
 
